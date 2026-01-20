@@ -1,0 +1,62 @@
+image: mcr.microsoft.com/dotnet/sdk:8.0
+
+stages:
+  - build_debug
+  - build_release
+  - test
+
+variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  DOTNET_NOLOGO: "1"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
+  NUGET_PACKAGES: "$CI_PROJECT_DIR/.nuget/packages"
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .nuget/packages
+
+before_script:
+  - dotnet --info
+  - dotnet restore FireworksSolution.sln
+
+build:debug:
+  stage: build_debug
+  script:
+    - dotnet build FireworksSolution.sln -c Debug --no-restore
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - "**/bin/Debug/"
+      - "**/obj/Debug/"
+
+build:release:
+  stage: build_release
+  script:
+    - dotnet build FireworksSolution.sln -c Release --no-restore
+    # Publish the MonoGame executable (DesktopGL) for Windows x64
+    - dotnet publish FireworksSimulator/FireworksSimulator.csproj -c Release -r win-x64 --self-contained false -o artifacts/FireworksSimulator
+    - ls -la artifacts/FireworksSimulator
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - artifacts/
+
+test:
+  stage: test
+  script:
+    - dotnet test FireworksSolution.sln -c Release --no-restore --logger:"trx;LogFileName=test_results.trx" --results-directory:"TestResults"
+    - dotnet tool install -g trx2junit
+    - export PATH="$PATH:/root/.dotnet/tools"
+    - trx2junit TestResults/test_results.trx
+    - ls -la TestResults
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - TestResults/
+    reports:
+      junit:
+        - TestResults/*.xml

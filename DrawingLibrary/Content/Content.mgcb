@@ -1,0 +1,23 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+#begin Sounds/Launcher.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/build:Sounds/Launcher.wav
+
+#begin Sounds/Firework Explosion sound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/build:Sounds/Firework Explosion sound.wav
