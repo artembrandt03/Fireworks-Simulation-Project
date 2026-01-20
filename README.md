@@ -5,6 +5,9 @@
 A feature-rich **C# MonoGame fireworks simulation** that models realistic firework launches, explosion patterns, particle physics, sound effects, and interactive controls.  
 This project emphasizes **object-oriented design**, **modular architecture**, **factory patterns**, **input handling**, and **performance benchmarking**.
 
+<img width="1586" height="1327" alt="image" src="https://github.com/user-attachments/assets/b8487d6f-f10b-49d5-ac88-6a278bae8658" />
+
+
 ---
 
 ## Overview
@@ -121,6 +124,9 @@ FireworksSolution/
 ---
 
 ## Media
+
+Watch full demo video over here!
+https://www.youtube.com/watch?v=2KNP2KN5YVg
 
 ---
 
